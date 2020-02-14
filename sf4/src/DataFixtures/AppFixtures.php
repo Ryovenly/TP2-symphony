@@ -14,10 +14,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AppFixtures extends Fixture
 {
     private $passwordEncoder;
+    private $price;
 
-    public function __construct(UserPasswordEncoderInterface $userPasswordEncoderInterface)
+    public function __construct(UserPasswordEncoderInterface $userPasswordEncoderInterface, CarPrice $carPrice)
     {
         $this->passwordEncoder = $userPasswordEncoderInterface;
+        $this->price = $carPrice;
     }
 
     public function load(ObjectManager $manager)
@@ -35,7 +37,8 @@ class AppFixtures extends Fixture
          ->setCartYear($faker->randomDigitNotNull() )
          ->setNbKm($faker->numberBetween($min = 30000, $max = 300000))
          ->setNbDays($faker->numberBetween($min = 5, $max = 30))
-         ->setPrice(420); 
+         ->setPrice(452); 
+        //         ->setPrice($this->$price->toGetCarPrice($CartYear,$NbKm,$NbDays)); 
             // J'ai pas réussi à mettre les variables créé par faker
 
          $manager->persist($advert);
