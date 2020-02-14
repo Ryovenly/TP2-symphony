@@ -6,12 +6,13 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a {% if app.request.attributes.get("_route") =='homepage' %}class="nav-item nav-link active" {% endif %} class="nav-item nav-link" href="{{ path('homepage')}}">Accueil</a>
-      <a {% if app.request.attributes.get("_route") =='homepage' %}class="nav-item nav-link active" {% endif %} class="nav-item nav-link" href="{{ path('advert_index')}}">Liste des annonces</a>
-      <a {% if app.request.attributes.get("_route") =='homepage' %}class="nav-item nav-link active" {% endif %} class="nav-item nav-link" href="{{ path('advert_new')}}">Nouvelle annonce</a>
+      <a {% if app.request.attributes.get("_advert_index") =='homepage' %}class="nav-item nav-link active" {% endif %} class="nav-item nav-link" href="{{ path('advert_index')}}">Liste des annonces</a>
+      <a {% if app.request.attributes.get("_advert_new") =='homepage' %}class="nav-item nav-link active" {% endif %} class="nav-item nav-link" href="{{ path('advert_new')}}">Nouvelle annonce</a>
                 {% if (app.user) %}
                 <li> <span class="uk-badge">{{ app.user.username }} </span></li>
                 <li><a href="{{ path('app_logout')}}"><span class="uk-badge">Déconnexion</span></a></li>
                 {% endif %}
+      <div> <a  href="{{ path('inscription')}}">S'inscrire</a><div>
     </div>
   </div>
 </nav>
