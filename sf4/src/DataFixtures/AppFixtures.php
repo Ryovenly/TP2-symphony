@@ -1,0 +1,77 @@
+<?php
+
+namespace App\DataFixtures;
+
+use App\Entity\Advert;
+use App\Entity\User;
+use App\Utils\CarPrice;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Faker\Factory;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+class AppFixtures extends Fixture
+{
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $userPasswordEncoderInterface)
+    {
+        $this->passwordEncoder = $userPasswordEncoderInterface;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        
+        $faker = Factory::create();
+
+
+
+         for ($i = 0 ; $i <= 100 ; $i++)
+{        $advert = new Advert();
+         $advert->setTitle($faker->word())
+         ->setDescription($faker->realText($maxNbChars = 20, $indexSize = 2))
+         ->setCity($faker->city())
+         ->setCartYear($faker->randomDigitNotNull() )
+         ->setNbKm($faker->numberBetween($min = 30000, $max = 300000))
+         ->setNbDays($faker->numberBetween($min = 5, $max = 30))
+         ->setPrice(420); 
+            // J'ai pas réussi à mettre les variables créé par faker
+
+         $manager->persist($advert);
+}
+
+
+$user = new User();
+$user->setEmail('aka@aka.com')
+    ->setRoles(['ROLE_ADMIN'])
+    ->setLogin('Akane')
+    ->setPassword($this->passwordEncoder->encodePassword(
+        $user,
+        'aka12345'
+    ));
+
+    $manager->persist($user);
+
+    for ($i = 0 ; $i <= 20 ; $i++)
+    {
+        $user = new User();
+        $user->setEmail($faker->email())
+            ->setRoles(['ROLE_USER'])
+            ->setLogin($faker->lastName())
+            ->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                $faker->password()
+            ));
+
+        $manager->persist($user);
+        
+    }
+
+
+
+
+
+        $manager->flush();
+    }
+}
